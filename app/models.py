@@ -1,5 +1,5 @@
-from app import db
 from flask_login import UserMixin
+from app import db  # Import db after it is initialized in __init__.py
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)

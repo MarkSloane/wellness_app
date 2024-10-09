@@ -12,12 +12,16 @@ def create_app():
     app.config['SECRET_KEY'] = 'your_secret_key'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
-    # Initialize extensions with the app
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
 
-    from app import routes
-    app.register_blueprint(routes.bp)
+    from app.models import User  # Import User after initializing extensions
+    from app.routes import bp
+    app.register_blueprint(bp)
 
     return app
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
