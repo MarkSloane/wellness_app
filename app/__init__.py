@@ -16,12 +16,7 @@ def create_app():
     bcrypt.init_app(app)
     login_manager.init_app(app)
 
-    from app.models import User  # Import User after initializing extensions
     from app.routes import bp
     app.register_blueprint(bp)
 
     return app
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
